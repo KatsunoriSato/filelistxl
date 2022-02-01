@@ -25,13 +25,14 @@ def createFileList():
     path = sys.argv[1]
 
     sheet.cell(xlrow, xlcolumn).value = "Directory:" + path
-    xlrow += 1
+    xlrow += 2
 
     # get file list
     files = glob.glob(path + "/*")
     for file in files:
-        sheet.cell(xlrow, xlcolumn).value = getFileInfo(file)
-        xlrow += 1
+        if os.path.isfile(file):
+            sheet.cell(xlrow, xlcolumn).value = getFileInfo(file)
+            xlrow += 1
 
     # rename sheet
     sheet.title = 'filelist'
