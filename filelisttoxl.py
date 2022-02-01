@@ -3,6 +3,14 @@ import os
 import sys
 import glob
 
+def getFileInfo(filepath, option=1):
+    if option == 1: # only filename
+        return os.path.split(filepath)[1]
+    else: # fullpath
+        return filepath
+
+
+
 def createFileList():
     xlrow = 1
     xlcolumn = 1
@@ -22,7 +30,7 @@ def createFileList():
     # get file list
     files = glob.glob(path + "/*")
     for file in files:
-        sheet.cell(xlrow, xlcolumn).value = file
+        sheet.cell(xlrow, xlcolumn).value = getFileInfo(file)
         xlrow += 1
 
     # rename sheet
@@ -31,18 +39,19 @@ def createFileList():
     # save file
     book.save("filelist.xlsx")
 
-
+def dispDesc():
+    print('-- filelistxl --')
+    print('>python3 filelistxl [path]')
+   
 # main flow
 def main():
     argc = len(sys.argv)
     if argc == 1:
-        print('-- filelistxl --')
-        print('>python3 filelistxl [path]')
+        dispDesc()
         sys.exit(0)
     
     if os.path.exists(sys.argv[1]) == False:
-        print('filelistxl ')
-        print('>python3 filelistxl [path]')
+        dispDesc()
         sys.exit(0)
 
     createFileList()
